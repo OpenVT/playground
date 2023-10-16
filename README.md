@@ -1,2 +1,2 @@
 # playground
-Playground for devs to test and share simple ideas.
+Playground for devs to test and share simple models and ideas.
