@@ -1,0 +1,8 @@
+Cell Hypothesis Rules
+
+In ctypeA cells:
+pressure increases cell-cell repulsion
+
+In ctypeB cells:
+pressure increases cell-cell repulsion
+

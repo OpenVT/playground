@@ -1,0 +1,8 @@
+Cell Hypothesis Rules (detailed)
+
+In ctypeA cells:
+pressure increases cell-cell repulsion from 1 towards 10 with a Hill response, with half-max 2 and Hill power 4.
+
+In ctypeB cells:
+pressure increases cell-cell repulsion from 1 towards 10 with a Hill response, with half-max 2 and Hill power 4.
+
