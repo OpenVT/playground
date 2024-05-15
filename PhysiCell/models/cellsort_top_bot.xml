@@ -359,7 +359,7 @@
     <initial_conditions>
         <cell_positions type="csv" enabled="true">
             <folder>./config</folder>
-            <filename>cellsort_99_top_bot.csv</filename>
+            <filename>cellsort_378_top_bot.csv</filename>
         </cell_positions>
     </initial_conditions>
 
