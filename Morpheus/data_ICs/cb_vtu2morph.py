@@ -212,6 +212,10 @@ for celltype_id in cell_type_name.keys():
 #   <Population type="celltype_1" size="3">
   s = f'    <Population type="{cell_type_name[celltype_id]}" size="3">\n'
   fout.write(s)
+
+  s = f'      <InitCellObjects mode="distance">\n'
+  fout.write(s)
+              
   for icell in range(len(xvals)):
     # print("----- icell= ",icell)
     cell_type_id = int(cell_ids[icell])
@@ -236,6 +240,8 @@ for celltype_id in cell_type_name.keys():
     s =f'        </Arrangement>\n'
     fout.write(s)
 
+  s = f'      </InitCellObjects>\n'
+  fout.write(s)
   s = f'    </Population>\n'
   fout.write(s)
 
