@@ -1,5 +1,8 @@
 # cb_vtu2morpheus.py - convert (2D) center-based cells (e.g., PhysiCell) in a VTK unstructured grid format (.vtu) to Morpheus's .xml format
 #
+#  python cb_vtu2morph.py <vtu-input-file> <domain-xmin> <domain-xmax> <domain-ymin> <domain-ymax> <nx-lattice> <ny-lattice>
+#  python cb_vtu2morph.py cellsort_small_checker_pcell.vtu -100 100 -100 100 100 100
+#
 import sys
 from vtk import *
 from vtk.util import numpy_support
@@ -83,6 +86,9 @@ except:
     print("Error parsing command line args.")
     sys.exit(-1)
 
+x_range = xmax - xmin
+y_range = ymax - ymin
+
 reader = vtkXMLUnstructuredGridReader()
 reader.SetFileName(vtu_file)
 reader.Update()
@@ -130,7 +136,7 @@ four_thirds_pi =  4.188790204786391
 cell_radii = np.divide(cell_vol, four_thirds_pi)
 cell_radii = np.power(cell_radii, 0.333333333333333333333333333333333333333)
 
-R2 = 8.*8.
+# R2 = 8.*8.
 
 debug_flag = False
 if debug_flag:
@@ -220,11 +226,14 @@ for celltype_id in cell_type_name.keys():
     s =f'        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">\n'
     fout.write(s)
     #                 <Sphere center="50.452, 80.345, 0" radius="12.345"/>
-    s =f'            Sphere center="{x}, {y}, 0" radius="{r}"/>\n'
+    xnew = (x - xmin)/x_range * nx
+    ynew = (y - ymin)/y_range * ny
+    # s =f'            Sphere center="{x}, {y}, 0" radius="{r}"/>\n'
+    s =f'            <Sphere center="{xnew}, {ynew}, 0" radius="{r}"/>\n'
     if debug_flag:
         print(s)
     fout.write(s)
-    s =f'        <Arrangement>\n'
+    s =f'        </Arrangement>\n'
     fout.write(s)
 
   s = f'    </Population>\n'
@@ -236,7 +245,19 @@ trailer = """
         <CellType name="celltype_1" class="biological"/>
         <CellType name="celltype_2" class="biological"/>
     </CellTypes>
+</MorpheusModel>
 """
-fout.write(trailer)
+# cell_type_name = {0: 'Condensing', 1:"NonCondensing"}
+s = f'    </CellPopulations>\n    <CellTypes>\n'
+fout.write(s)
+
+for ctype in cell_type_name.keys():
+    s = f'        <CellType name="{cell_type_name[ctype]}" class="biological"/>\n'
+    fout.write(s)
+
+s = f'    </CellTypes>\n</MorpheusModel>\n'
+fout.write(s)
+
+# fout.write(trailer)
 fout.close()    
 print("--> ",fname_out)
