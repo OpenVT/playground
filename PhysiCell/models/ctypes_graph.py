@@ -38,7 +38,8 @@ for idx in [480]:
     xml_file = "output%08d.xml" % idx
     try:
         # mcds = pyMCDS_cells(xml_file, out_dir)   
-        mcds = pcdl.TimeStep(xml_file,out_dir)
+        # mcds = pcdl.TimeStep(xml_file,out_dir)
+        mcds = pcdl.TimeStep(xml_file,out_dir, microenv=False, graph=False, verbose=False)
     except:
         break
 
@@ -57,7 +58,7 @@ for idx in [480]:
         id_ctype = np.where(ctype == cell_type)  # return 2D array: id_ct0=  (array([ 0,  2, ...  48]),)  ?
         # print("id_ct0= ",id_ct0)
         id_ctype = id_ctype[0]
-        print(id_ctype)
+        # print(id_ctype)
         # max_idx = 6
         # max_idx = len(id_ct0[0])
         max_idx = len(id_ctype)
@@ -86,15 +87,15 @@ for idx in [480]:
                     if d2 < dmax2:
                         G.add_edge(ii,jj)
 
-        print(f'type(nx.connected_components(G)= {type(nx.connected_components(G))}')
+        # print(f'type(nx.connected_components(G)= {type(nx.connected_components(G))}')
         lcc = list(nx.connected_components(G))
-        print(f'type(lcc[0])= {type(lcc[0])}')
-        print(f'{type(nx.connected_components(G))}')
+        # print(f'type(lcc[0])= {type(lcc[0])}')
+        # print(f'{type(nx.connected_components(G))}')
         l_ids = []
         for ic in lcc:
             l_ids += ic
         isolated_cells = set(id_ctype) - set(l_ids)
         print("missing (isolated) cell ids=",isolated_cells)
-        print(f'l_ids= {l_ids}')
+        # print(f'l_ids= {l_ids}')
         print(f'# of clusters for cell type {cell_type} = { len(isolated_cells) + len(list(nx.connected_components(G)))}')
         print(f'    {list(nx.connected_components(G))}')
