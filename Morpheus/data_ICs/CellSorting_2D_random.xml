@@ -1,0 +1,292 @@
+<MorpheusModel version="4">
+    <Description>
+        <Title>Example-CellSorting-2D</Title>
+        <Details>Full title:		Differential Adhesion: Cell Sorting in Two Dimensions
+Authors:		F. Graner, J. A. Glazier
+Date:		06.11.2019
+Software:		Morpheus (open-source). Download from https://morpheus.gitlab.io
+Model ID:		https://identifiers.org/morpheus/M0021
+Reference:		F. Graner, J. A. Glazier: Simulation of biological cell sorting using a two-dimensional extended Potts model. Phys. Rev. Lett. 69 (13): 2013-2016, 1992</Details>
+    </Description>
+    <Global>
+        <Variable symbol="boundary" name="Boundary length of CT1 with other cell types" value="0.0"/>
+        <Constant symbol="b" value="0.0"/>
+        <Constant symbol="b2" value="0.0"/>
+    </Global>
+    <Space>
+        <SpaceSymbol symbol="l"/>
+        <Lattice class="square">
+            <Size symbol="size" value="200, 200, 0"/>
+            <BoundaryConditions>
+                <Condition type="periodic" boundary="x"/>
+                <Condition type="periodic" boundary="y"/>
+            </BoundaryConditions>
+            <Neighborhood>
+                <Order>2</Order>
+            </Neighborhood>
+        </Lattice>
+    </Space>
+    <Time>
+        <StartTime value="0"/>
+        <StopTime value="250"/>
+        <!--    <Disabled>
+        <SaveInterval value="5e3"/>
+    </Disabled>
+-->
+        <RandomSeed value="0"/>
+        <TimeSymbol symbol="time"/>
+    </Time>
+    <CellTypes>
+        <CellType class="biological" name="ct1">
+            <VolumeConstraint target="200" strength="1"/>
+            <NeighborhoodReporter>
+                <Input scaling="length" value="cell.type == celltype.ct2.id"/>
+                <Output symbol-ref="boundary" mapping="sum"/>
+            </NeighborhoodReporter>
+            <Property symbol="b" value="0"/>
+            <NeighborhoodReporter>
+                <Input scaling="cell" value="cell.type == celltype.ct2.id"/>
+                <Output symbol-ref="b" mapping="sum"/>
+            </NeighborhoodReporter>
+            <NeighborhoodReporter>
+                <Input scaling="length" value="cell.type == celltype.ct2.id"/>
+                <Output symbol-ref="b2" mapping="sum"/>
+            </NeighborhoodReporter>
+            <Property symbol="b2" name="Interface with ct2" value="0"/>
+        </CellType>
+        <CellType class="biological" name="ct2">
+            <VolumeConstraint target="200" strength="1"/>
+            <Property symbol="b" value="0"/>
+            <NeighborhoodReporter>
+                <Input scaling="cell" value="cell.type == celltype.ct1.id"/>
+                <Output symbol-ref="b" mapping="sum"/>
+            </NeighborhoodReporter>
+            <Property symbol="b2" name="Interface with ct1" value="0"/>
+            <NeighborhoodReporter>
+                <Input scaling="length" value="cell.type == celltype.ct1.id"/>
+                <Output symbol-ref="b2" mapping="sum"/>
+            </NeighborhoodReporter>
+        </CellType>
+        <CellType class="medium" name="medium"/>
+    </CellTypes>
+    <CPM>
+        <Interaction default="0.0">
+            <Contact type1="ct1" type2="medium" value="12"/>
+            <Contact type1="ct2" type2="medium" value="6"/>
+            <Contact type1="ct1" type2="ct1" value="6"/>
+            <Contact type1="ct2" type2="ct2" value="6"/>
+            <Contact type1="ct1" type2="ct2" value="16"/>
+        </Interaction>
+        <MonteCarloSampler stepper="edgelist">
+            <MCSDuration value="1"/>
+            <Neighborhood>
+                <Order>2</Order>
+            </Neighborhood>
+            <MetropolisKinetics temperature="2"/>
+        </MonteCarloSampler>
+        <ShapeSurface scaling="norm">
+            <Neighborhood>
+                <Order>6</Order>
+            </Neighborhood>
+        </ShapeSurface>
+    </CPM>
+    <CellPopulations>
+    <Population type="ct1" size="3">
+      <InitCellObjects mode="distance">
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="68.65084266662598, 49.57124328613281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="102.30168437957762, 49.57124328613281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="119.12710571289062, 49.57124328613281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="77.06355285644531, 64.14248275756836, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="93.88897371292114, 64.14248275756836, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.53981590270995, 64.14248275756836, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="144.36523818969727, 64.14248275756836, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="68.65084266662598, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="102.30168437957762, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="119.12710571289062, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="60.23813247680664, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="77.06355285644531, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="144.36523818969727, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="161.19065856933594, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="51.82542037963868, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="85.47626304626465, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="102.30168437957762, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="43.41271209716797, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="60.23813247680664, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="77.06355285644531, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="93.88897371292114, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="110.71439456939697, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="144.36523818969727, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="68.65084266662598, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="85.47626304626465, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="77.06355285644531, 151.56993865966797, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="93.88897371292114, 151.56993865966797, 0" radius="8.412711143493652"/>
+        </Arrangement>
+      </InitCellObjects>
+    </Population>
+    <Population type="ct2" size="3">
+      <InitCellObjects mode="distance">
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="85.47626304626465, 49.57124328613281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="135.9525260925293, 49.57124328613281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="60.23813247680664, 64.14248275756836, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="110.71439456939697, 64.14248275756836, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="51.82542037963868, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="85.47626304626465, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="135.9525260925293, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="152.77794647216797, 78.71372604370117, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="43.41271209716797, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="93.88897371292114, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="110.71439456939697, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.53981590270995, 93.28496837615967, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="68.65084266662598, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="119.12710571289062, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="135.9525260925293, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="152.77794647216797, 107.85621070861818, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.53981590270995, 122.42745208740233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="51.82542037963868, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="102.30168437957762, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="119.12710571289062, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="135.9525260925293, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="152.77794647216797, 136.99869537353516, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="110.71439456939697, 151.56993865966797, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.53981590270995, 151.56993865966797, 0" radius="8.412711143493652"/>
+        </Arrangement>
+      </InitCellObjects>
+    </Population>
+    </CellPopulations>
+    <Analysis>
+        <Gnuplotter time-step="100" decorate="false">
+            <Terminal name="png"/>
+            <Plot>
+                <Cells value="cell.type" min="0" max="1">
+                <ColorMap>
+                    <Color color="dark-gray" value="0"/>
+                    <Color color="red" value="1"/>
+                </ColorMap>
+                </Cells>
+            </Plot>
+        </Gnuplotter>
+        <Logger time-step="10.0">
+            <Input>
+                <Symbol symbol-ref="boundary"/>
+                <Symbol symbol-ref="b"/>
+                <Symbol symbol-ref="b2"/>
+            </Input>
+            <Output>
+                <TextOutput/>
+            </Output>
+            <Plots>
+                <Plot time-step="500">
+                    <Style style="linespoints"/>
+                    <Terminal terminal="png"/>
+                    <X-axis>
+                        <Symbol symbol-ref="time"/>
+                    </X-axis>
+                    <Y-axis>
+                        <Symbol symbol-ref="boundary"/>
+                    </Y-axis>
+                </Plot>
+            </Plots>
+        </Logger>
+        <ModelGraph format="dot" reduced="false" include-tags="#untagged"/>
+    </Analysis>
+</MorpheusModel>
