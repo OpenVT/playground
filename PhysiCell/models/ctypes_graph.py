@@ -34,7 +34,11 @@ else:
 hr_delta = 20
 #hr_delta = 10
 # for idx in range(0,615, hr_delta):
-for idx in [480]:
+
+iframe = 720
+print("----- finding clusters for frame # ",iframe)
+#for idx in [480]:
+for idx in [iframe]:
     xml_file = "output%08d.xml" % idx
     try:
         # mcds = pyMCDS_cells(xml_file, out_dir)   
