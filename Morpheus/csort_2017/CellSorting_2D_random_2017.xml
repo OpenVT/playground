@@ -1,0 +1,1342 @@
+<MorpheusModel version="4">
+    <Description>
+        <Title>CellSorting_2D_random_Chaste2017</Title>
+        <Details>Full title:		Differential Adhesion: Cell Sorting in Two Dimensions
+Authors:		F. Graner, J. A. Glazier
+Date:		06.11.2019
+Software:		Morpheus (open-source). Download from https://morpheus.gitlab.io
+Model ID:		https://identifiers.org/morpheus/M0021
+Reference:		F. Graner, J. A. Glazier: Simulation of biological cell sorting using a two-dimensional extended Potts model. Phys. Rev. Lett. 69 (13): 2013-2016, 1992</Details>
+    </Description>
+    <Global>
+        <Variable symbol="boundary" name="Boundary length of CT1 with other cell types" value="0.0"/>
+        <Constant symbol="b" value="0.0"/>
+        <Constant symbol="b2" value="0.0"/>
+    </Global>
+    <Space>
+        <SpaceSymbol symbol="l"/>
+        <Lattice class="square">
+            <Size symbol="size" value="400, 400, 0"/>
+            <BoundaryConditions>
+                <Condition type="periodic" boundary="x"/>
+                <Condition type="periodic" boundary="y"/>
+            </BoundaryConditions>
+            <Neighborhood>
+                <Order>2</Order>
+            </Neighborhood>
+        </Lattice>
+    </Space>
+    <Time>
+        <StartTime value="0"/>
+        <StopTime value="50000"/>
+        <!--    <Disabled>
+        <SaveInterval value="5e3"/>
+    </Disabled>
+-->
+        <RandomSeed value="0"/>
+        <TimeSymbol symbol="time"/>
+    </Time>
+    <CellTypes>
+        <CellType class="biological" name="ct1">
+            <VolumeConstraint target="200" strength="1"/>
+            <NeighborhoodReporter>
+                <Input scaling="length" value="cell.type == celltype.ct2.id"/>
+                <Output symbol-ref="boundary" mapping="sum"/>
+            </NeighborhoodReporter>
+            <Property symbol="b" value="0"/>
+            <NeighborhoodReporter>
+                <Input scaling="cell" value="cell.type == celltype.ct2.id"/>
+                <Output symbol-ref="b" mapping="sum"/>
+            </NeighborhoodReporter>
+            <NeighborhoodReporter>
+                <Input scaling="length" value="cell.type == celltype.ct2.id"/>
+                <Output symbol-ref="b2" mapping="sum"/>
+            </NeighborhoodReporter>
+            <Property symbol="b2" name="Interface with ct2" value="0"/>
+        </CellType>
+        <CellType class="biological" name="ct2">
+            <VolumeConstraint target="200" strength="1"/>
+            <Property symbol="b" value="0"/>
+            <NeighborhoodReporter>
+                <Input scaling="cell" value="cell.type == celltype.ct1.id"/>
+                <Output symbol-ref="b" mapping="sum"/>
+            </NeighborhoodReporter>
+            <Property symbol="b2" name="Interface with ct1" value="0"/>
+            <NeighborhoodReporter>
+                <Input scaling="length" value="cell.type == celltype.ct1.id"/>
+                <Output symbol-ref="b2" mapping="sum"/>
+            </NeighborhoodReporter>
+        </CellType>
+        <CellType class="medium" name="medium"/>
+    </CellTypes>
+    <CPM>
+        <Interaction default="0.0">
+            <Contact type1="ct1" type2="medium" value="12"/>
+            <Contact type1="ct2" type2="medium" value="6"/>
+            <Contact type1="ct1" type2="ct1" value="6"/>
+            <Contact type1="ct2" type2="ct2" value="6"/>
+            <Contact type1="ct1" type2="ct2" value="16"/>
+        </Interaction>
+        <MonteCarloSampler stepper="edgelist">
+            <MCSDuration value="1"/>
+            <Neighborhood>
+                <Order>2</Order>
+            </Neighborhood>
+            <MetropolisKinetics temperature="2"/>
+        </MonteCarloSampler>
+        <ShapeSurface scaling="norm">
+            <Neighborhood>
+                <Order>6</Order>
+            </Neighborhood>
+        </ShapeSurface>
+    </CPM>
+    <CellPopulations>
+    <Population type="ct1" size="3">
+      <InitCellObjects mode="distance">
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="97.99716796875, 302.47833251953125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="115.60294799804687, 307.4713623046875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="148.00311279296875, 309.02043457031255, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="213.46939697265626, 302.2927551269531, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="223.55423431396483, 306.5775634765625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="246.0973907470703, 307.539208984375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="266.54592285156247, 305.96455078125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="89.74913330078125, 281.1551147460937, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="128.52156372070314, 295.1579162597656, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="161.96918945312498, 295.24755859375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="196.0744728088379, 292.73972167968753, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="207.50609970092773, 292.79747314453124, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="228.77207641601564, 295.85284423828125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="239.48905944824216, 290.7454406738281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="285.8000854492187, 294.91566162109376, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="296.26840820312503, 290.80859375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="308.7209838867187, 287.38457641601565, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="122.34190063476562, 284.08192138671876, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="155.94118957519532, 285.2924438476562, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="167.2603546142578, 284.0742431640625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="189.6360824584961, 283.126953125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.8926022529602, 282.7383544921875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="224.87530822753908, 281.36785278320315, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="236.5504638671875, 280.50175781250005, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="247.518896484375, 281.57880859375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="279.4969970703125, 286.223095703125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="300.81171875, 280.4505737304687, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="317.5701171875, 272.1696960449219, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="94.89547119140626, 271.25910644531245, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="106.16702880859374, 271.72670898437497, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="138.26318969726563, 274.5193786621094, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="184.69845123291014, 272.99655761718753, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="196.29474716186525, 273.2467468261719, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="206.93919525146484, 270.3521667480469, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="218.28318328857424, 271.38636474609376, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="229.86209411621093, 271.32293701171875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="264.1214660644531, 271.39306030273434, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="285.6861145019531, 270.82798461914064, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="296.63084716796874, 268.5789794921875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="99.99613647460937, 260.7449035644531, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="111.43348999023436, 261.5085388183594, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="122.16847534179686, 261.823779296875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="133.29696655273438, 261.3446960449219, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="143.4743225097656, 265.10390014648436, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="188.8231170654297, 262.8232666015625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="235.49407653808592, 261.1403747558594, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="246.96569519042967, 258.75184936523436, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="257.73963623046876, 261.0369506835938, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="268.776123046875, 260.35119018554684, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="302.73546142578124, 258.010595703125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="313.1994995117187, 255.1675109863281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="94.47095947265625, 249.17919311523437, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="128.31419677734374, 251.26586303710937, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="149.2719970703125, 255.14237060546873, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="171.0444793701172, 252.1036193847656, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="193.47156372070313, 252.2454345703125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="205.042240524292, 251.93462524414062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="217.20162048339841, 250.2866149902344, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="252.72534179687497, 248.1095458984375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="274.5466003417969, 249.3147674560547, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="285.1659240722656, 250.24388427734374, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="296.1442016601563, 246.7476013183594, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="100.38925170898439, 239.53641662597659, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="122.75349121093751, 240.29881591796874, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="154.7635925292969, 245.2406768798828, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="187.73429031372072, 242.6486114501953, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="212.7518798828125, 240.3627197265625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="224.78506317138672, 240.04496459960936, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="235.74091186523435, 240.4072570800781, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="288.5849182128906, 237.2728271484375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="300.03045654296875, 235.19807128906248, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="311.2996337890625, 233.83269042968752, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="94.43345947265624, 228.39063110351563, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="105.38718261718749, 229.30820617675784, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="126.88992919921876, 229.21544799804687, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="138.07573242187502, 229.19583129882812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="159.99782714843752, 230.4732604980469, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="170.62112731933595, 229.670263671875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="181.28655853271485, 233.2374237060547, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="192.70318450927735, 232.9234313964844, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="216.04431762695313, 230.15882263183593, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="250.71952209472656, 225.43049468994138, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="261.399951171875, 225.57216949462892, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="272.1220764160156, 226.03159790039064, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="283.799853515625, 225.8325988769531, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="294.47704467773434, 225.23312988281253, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="305.36203613281253, 223.99377593994137, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="120.96598510742187, 218.41397399902345, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="131.86770629882812, 218.28809967041013, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="142.6001953125, 217.15474853515624, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="164.05853271484375, 219.22218017578126, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="175.04686279296874, 219.61177978515627, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="186.54400939941408, 223.4827713012695, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.04639402031898, 221.70071868896483, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="277.9721374511719, 215.06358947753904, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="289.0822387695312, 214.95258026123048, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="300.2475891113281, 213.69652557373047, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="310.43229980468755, 211.28499908447264, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="93.80844726562499, 205.24447708129884, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="104.66351318359375, 207.4169174194336, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="125.45713500976564, 207.24183197021486, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="158.99149475097656, 208.00318603515623, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="179.8820327758789, 209.8474250793457, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="189.93124618530274, 213.69644622802736, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.18264449834822, 211.32862396240233, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="211.28738098144532, 209.68742065429686, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="223.73897247314454, 207.74753570556638, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="234.26072387695314, 204.12634544372557, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="261.89832153320316, 204.93768310546875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="272.5470703125, 203.41723060607907, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="294.067578125, 204.32599868774415, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="303.3463500976563, 199.34398670196535, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="313.73302001953124, 197.12958297729492, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="100.738134765625, 196.18346977233887, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="153.9225830078125, 198.12138099670412, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="163.64615783691406, 192.39276428222655, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="173.56414184570312, 195.8784797668457, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="183.76007843017578, 198.41295909881592, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="225.52053985595703, 197.05058040618897, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="234.90611877441404, 191.78667755126952, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="255.24449462890627, 195.52880935668946, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="288.12181396484374, 193.5369010925293, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="129.048583984375, 184.28896484375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="150.57099609375, 184.91126708984376, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="192.47334060668945, 184.1010787963867, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="225.54262695312502, 184.33005371093748, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="237.278515625, 181.22304077148436, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="270.76666870117185, 180.21068725585937, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="282.95714111328124, 182.5590026855469, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="305.30108642578125, 179.46192626953126, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="113.19484863281251, 171.95348205566404, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="123.94658203125, 172.69568176269533, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="155.45574951171875, 170.36752014160157, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="166.15054931640626, 171.0402313232422, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="211.7772430419922, 178.31363220214845, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="298.80750732421876, 169.62190856933594, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.30955200195314, 160.0870178222656, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="170.46695251464843, 160.62849121093748, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="203.4350170135498, 166.05213012695313, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="214.98779907226563, 162.4332763671875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="236.82655334472656, 158.72650451660155, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="269.04812011718747, 157.98724670410155, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="280.62282104492186, 159.04632873535155, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="292.2073608398438, 159.220703125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="303.11945800781245, 158.87474060058594, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="99.71077270507813, 150.5199737548828, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="121.88109741210937, 149.87759704589845, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="133.08862915039063, 149.05694580078125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="166.72157287597656, 148.32495727539063, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="188.7622367858887, 151.35295410156252, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.7537314891815, 155.28932495117186, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="214.97237701416014, 151.96555786132814, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="244.80078735351563, 149.68258056640624, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="254.73456420898438, 146.0318603515625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="297.4861633300781, 148.183056640625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="309.097509765625, 149.7313232421875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="94.27576904296875, 140.0865234375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="105.44505004882811, 139.39197998046876, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="116.30227661132812, 139.15267333984374, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="126.99202270507813, 139.00615234375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="148.6156494140625, 136.08311157226564, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="180.59290313720703, 138.89424438476564, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="191.33843383789062, 139.9330078125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="203.67961082458496, 145.1359436035156, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="249.5635925292969, 135.61676025390625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="261.128125, 136.10548095703126, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="282.25828857421874, 137.12152709960938, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="292.9492858886719, 136.91835937500002, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="121.86114501953125, 127.99697265625001, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="132.9389221191406, 127.67118530273439, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="143.7611083984375, 126.44046020507812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="167.03760375976563, 126.25714111328125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="188.3883316040039, 128.8121337890625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="211.4262954711914, 130.0109680175781, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="221.2909408569336, 125.36334228515625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="287.2854125976562, 125.45608520507811, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="312.5792724609375, 131.60137939453125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="181.7330062866211, 114.51297607421876, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="192.3537841796875, 118.15216674804687, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="215.1409423828125, 116.61051025390626, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="215.32778778076172, 106.25740966796874, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="260.03065795898436, 115.13768920898437, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="281.9571044921875, 115.43095703124999, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="292.34722900390625, 112.83348388671874, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="314.028662109375, 119.6323486328125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="85.492431640625, 112.33606567382812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="109.92466430664064, 104.54119873046875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="121.21127319335938, 104.1820068359375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="132.097314453125, 105.57905883789063, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="143.44312744140626, 106.25385131835938, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="166.24892578125, 104.9419677734375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="189.0719207763672, 106.1660888671875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="201.04412899017333, 110.14522094726561, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="212.6776924133301, 96.05153808593751, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="222.62042846679688, 91.39764404296875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="243.12737426757815, 104.12872924804688, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="265.29295043945314, 104.55806274414063, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="298.89365844726564, 104.40534057617188, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="308.1816040039063, 99.44224243164062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="116.20721435546875, 94.3441650390625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.59649658203125, 94.0986572265625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="169.92543334960936, 94.72235107421875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="181.1627655029297, 94.50822753906249, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.97327899932858, 99.47216796875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="214.22631835937497, 84.36529541015625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="235.5675018310547, 94.68543701171875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="279.5016662597656, 91.239453125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+      </InitCellObjects>
+    </Population>
+    <Population type="ct2" size="3">
+      <InitCellObjects mode="distance">
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="126.47984008789062, 309.0573364257812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="136.9373291015625, 306.7992431640625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="157.9915008544922, 305.18651123046874, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="169.51432189941406, 308.3302368164062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="179.32382049560547, 303.5105834960938, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="190.9286849975586, 302.6511596679688, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="202.23725814819335, 303.58706054687497, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="235.15022888183594, 305.39600830078126, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="256.6870483398437, 301.9951171875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="278.614892578125, 305.2036865234375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="290.34434814453124, 304.5377563476562, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="304.67137451171874, 298.34136352539065, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="106.93380126953124, 296.92734375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="117.70206298828126, 295.65550537109374, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="139.60192260742187, 295.48683471679686, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="150.68956604003907, 295.18342895507817, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="173.15032348632812, 293.76436157226567, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="184.5224822998047, 293.1591491699219, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="218.77429656982423, 290.8930297851562, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="250.61183166503906, 292.6575866699219, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="262.5332458496094, 291.8694213867187, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="273.8478698730469, 295.7538635253906, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="318.88889160156253, 283.27118530273435, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="101.20457153320312, 282.54213256835936, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="111.74049072265626, 285.517236328125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="133.23375244140624, 284.61428222656247, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="144.3370849609375, 284.8546142578125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="178.29131774902345, 283.8146606445313, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="212.80748901367187, 281.56785888671874, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="258.44287109375, 281.8974182128906, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="269.4624084472656, 281.7961364746094, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="290.0086608886719, 281.33551025390625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="116.90568237304689, 274.0520935058594, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.59962158203125, 273.0825500488281, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="150.23507080078124, 275.26708374023434, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="161.37854919433593, 274.39990234375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="172.9044006347656, 273.66082153320315, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="241.57844848632814, 270.35812988281253, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="252.71215209960934, 271.5893127441406, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="274.70677490234374, 271.18389892578125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="307.68121337890625, 268.7642517089844, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="154.81797485351564, 264.9245178222656, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="166.12477111816406, 264.394091796875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="176.7144332885742, 262.5881042480469, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.2313517808914, 261.9046630859375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="212.6417449951172, 260.31047973632815, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="224.60223083496095, 260.48057250976564, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="279.6184631347656, 260.1994201660156, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="291.8420166015625, 258.34795532226565, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="105.70870361328124, 250.49547424316407, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="117.12280273437501, 251.0216827392578, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="138.90698852539063, 250.66712646484376, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="160.63231506347657, 254.7292053222656, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="182.5292221069336, 252.85231323242186, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="229.15474853515624, 250.60445251464841, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="241.5803649902344, 249.40732116699218, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="263.4943542480469, 250.390771484375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="306.869580078125, 245.5875671386719, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="111.49007568359374, 240.2261993408203, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="133.66005859375002, 240.18750610351566, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="144.47010498046876, 240.1885192871094, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="164.3627166748047, 240.96151733398438, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="175.13460693359374, 241.9217376708984, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.01935322135688, 242.597119140625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="246.96123657226562, 238.62553100585936, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="257.66316528320317, 236.6224365234375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="267.64442138671876, 239.75777893066405, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="277.90972290039065, 235.90715026855466, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="116.37100830078124, 229.75310668945315, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="148.80282592773438, 230.32622070312502, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="204.08808174133299, 232.37792968750003, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="228.54194946289064, 229.5435729980469, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="240.04525146484377, 229.29875183105472, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="98.43198852539062, 216.67843322753905, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="109.89995727539062, 218.34881134033202, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="153.40082397460938, 220.01353454589844, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="213.31634063720705, 219.73523101806643, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="224.3592819213867, 219.44241790771483, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="234.95216064453123, 219.0639358520508, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="245.09459838867187, 215.39239501953125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="255.90592041015623, 214.63800811767578, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="267.0358947753906, 215.22606506347657, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="115.20242919921874, 206.0152084350586, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="136.09630126953124, 207.53663940429686, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="147.88439331054687, 207.4912322998047, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="169.5639221191406, 207.07611236572268, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="245.58056640625, 203.04813671112058, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="283.0584350585938, 203.60953674316406, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="111.40407104492186, 195.19803123474122, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="122.40081176757813, 194.34324951171874, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="132.87659912109376, 196.49781341552733, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="143.6730712890625, 194.2361614227295, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="194.120943069458, 200.2403018951416, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="215.20302581787107, 198.53489933013918, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="245.3413238525391, 191.79574584960938, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="265.91741943359375, 193.44233627319335, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="276.4166687011719, 191.24930343627932, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="298.9382019042969, 188.07861557006837, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="96.93453369140626, 184.0732864379883, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="107.48418579101562, 183.9098129272461, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="118.05596923828125, 183.6376495361328, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="139.61536865234373, 183.51154327392578, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="160.37939147949217, 181.18579711914063, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="171.28894653320313, 182.48221282958986, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="181.904443359375, 183.05930938720704, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="202.23607292175294, 188.4716781616211, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="215.34317779541016, 188.18569107055666, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="249.92405700683597, 182.00530090332032, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="260.31187744140624, 181.25255432128907, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="293.0546081542969, 178.72614288330078, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="102.30159301757813, 172.51824951171875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="134.45291137695312, 171.8076599121094, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="144.88511962890624, 171.19170532226562, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="179.3110321044922, 171.79363098144532, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="189.95366516113282, 173.1012451171875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.42023377418516, 176.58124237060545, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="220.04696044921874, 171.7322296142578, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="230.69755554199222, 171.08688354492188, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="241.56228942871093, 170.6131805419922, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="252.41378784179688, 170.6678649902344, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="263.5659973144531, 170.00884094238282, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="274.75420532226565, 168.80365905761718, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="286.51458740234375, 168.9802276611328, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="310.07452392578125, 169.105419921875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="94.5438232421875, 162.49996337890624, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="105.04605102539062, 160.587255859375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="115.84459838867187, 159.93169250488282, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="138.2017333984375, 159.47294921875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="148.86419677734375, 159.39639282226562, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="159.9364776611328, 158.5383758544922, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="181.00453186035156, 160.21582946777343, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="191.4728515625, 162.49473571777344, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="226.20916442871092, 160.43592529296876, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="247.49163818359375, 160.39454650878906, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="258.5243835449219, 159.43673095703127, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="110.80695190429688, 149.85619201660157, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="143.85557861328124, 148.65982055664062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="155.11641235351564, 148.70623168945312, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="177.32554016113284, 149.47733459472656, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="224.45486297607422, 146.98445434570314, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="234.78245544433594, 144.1014831542969, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="265.38458251953125, 147.02293701171877, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="276.0436218261719, 147.57131958007812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="286.9300231933594, 148.54070434570312, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="137.96241455078123, 137.9677551269531, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="159.127392578125, 137.48260498046875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="169.95706787109376, 136.79251098632812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="215.2095184326172, 140.49722290039062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="227.30977783203124, 135.59356689453125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="238.56288452148436, 133.55895385742187, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="271.60683593749997, 136.56253051757812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="303.4291259765625, 136.84330444335936, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="89.96773681640626, 129.30853881835938, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="100.32354125976562, 126.30419311523437, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="110.93126220703124, 128.31239013671876, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="156.03034057617185, 126.64479980468751, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="178.23204040527344, 124.85913696289062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="200.009057828784, 131.38327026367188, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="232.1793731689453, 124.34539184570312, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="243.72923278808597, 123.54819946289062, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="254.79096679687498, 125.57042846679687, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="265.7361877441406, 124.93088989257812, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="276.6809875488281, 126.00433959960937, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="297.89560546875, 125.35946655273438, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="95.0100341796875, 116.53099365234374, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="106.0472900390625, 115.0438232421875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="117.01857910156251, 114.33468627929688, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="127.35697631835939, 116.44112548828124, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="138.17839355468752, 116.26685180664063, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="149.09852600097656, 116.35248413085937, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="159.88102416992186, 114.5075439453125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="170.71370544433591, 115.52811279296876, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="203.74906158447263, 120.72849121093749, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="225.94966430664064, 113.69270629882813, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="237.54222412109374, 114.23886108398438, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="248.99125061035156, 113.70451660156252, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="271.14044189453125, 114.53122558593749, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="303.6379638671875, 116.20775756835937, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="154.76956176757812, 104.70500488281249, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="177.55888061523436, 104.5437255859375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="231.14908752441409, 104.3802490234375, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="254.4717529296875, 103.58111572265625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="276.4899475097656, 104.44318847656251, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="287.20948486328126, 102.54767456054688, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="103.02361450195312, 96.68369140625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="138.50399169921874, 95.171923828125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="149.4659240722656, 95.05079345703125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="160.1172302246094, 90.43006591796875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="192.46658477783203, 92.9735595703125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="226.5678894042969, 81.67679443359374, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="246.11220703125, 91.8194580078125, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="257.602978515625, 93.20982666015625, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="269.2215209960938, 94.180419921875, 0" radius="8.412711143493652"/>
+        </Arrangement>
+        <Arrangement repetitions="1, 1, 1" displacements="1, 1, 1">
+            <Sphere center="290.82642822265626, 92.05673828124999, 0" radius="8.412711143493652"/>
+        </Arrangement>
+      </InitCellObjects>
+    </Population>
+    </CellPopulations>
+    <Analysis>
+        <Gnuplotter time-step="100" decorate="false">
+            <Terminal name="png"/>
+            <Plot>
+                <Cells value="cell.type" min="0" max="1">
+                <ColorMap>
+                    <Color color="dark-gray" value="0"/>
+                    <Color color="red" value="1"/>
+                </ColorMap>
+                </Cells>
+            </Plot>
+        </Gnuplotter>
+        <Logger time-step="10.0">
+            <Input>
+                <Symbol symbol-ref="boundary"/>
+                <Symbol symbol-ref="b"/>
+                <Symbol symbol-ref="b2"/>
+            </Input>
+            <Output>
+                <TextOutput/>
+            </Output>
+            <Plots>
+                <Plot time-step="500">
+                    <Style style="linespoints"/>
+                    <Terminal terminal="png"/>
+                    <X-axis>
+                        <Symbol symbol-ref="time"/>
+                    </X-axis>
+                    <Y-axis>
+                        <Symbol symbol-ref="boundary"/>
+                    </Y-axis>
+                </Plot>
+            </Plots>
+        </Logger>
+        <ModelGraph format="dot" reduced="false" include-tags="#untagged"/>
+    </Analysis>
+</MorpheusModel>
