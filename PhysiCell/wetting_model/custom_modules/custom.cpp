@@ -202,19 +202,19 @@ void setup_tissue( void )
 	// load cells from your CSV file (if enabled)
 	load_cells_from_pugixml();
 
-    std::vector<double> down_direction {0.0, -1.0, 0.0};
-    // cell_defaults.phenotype.motility.migration_bias_direction = down_direction;
-    // // for (unsigned int i = 0; i < (*all_cells).size(); i++)
-    for( auto cell : *PhysiCell::all_cells )
-    {
-        // if ((*all_cells)[i]->type_name != pCD->name)
-        // {
-        //     continue;
-        // }
-        cell->phenotype.motility.migration_bias_direction = down_direction;
-        // cell->phenotype.motility.motility_vector[0] = 0.0;
-        // cell->phenotype.motility.motility_vector[1] = -1.0;
-    }
+    // std::vector<double> down_direction {0.0, -1.0, 0.0};
+    // // cell_defaults.phenotype.motility.migration_bias_direction = down_direction;
+    // // // for (unsigned int i = 0; i < (*all_cells).size(); i++)
+    // for( auto cell : *PhysiCell::all_cells )
+    // {
+    //     // if ((*all_cells)[i]->type_name != pCD->name)
+    //     // {
+    //     //     continue;
+    //     // }
+    //     cell->phenotype.motility.migration_bias_direction = down_direction;
+    //     // cell->phenotype.motility.motility_vector[0] = 0.0;
+    //     // cell->phenotype.motility.motility_vector[1] = -1.0;
+    // }
 
 	set_parameters_from_distributions();
 	
